@@ -16,5 +16,5 @@ import 'style!css!sass!aplicationStyles';
   document.getElementById('app')
 );*/
 
-//require('./redux-exemple.jsx');
-require('./redux-todo-example.jsx');
+require('./redux-exemple.jsx');
+//require('./redux-todo-example.jsx');
