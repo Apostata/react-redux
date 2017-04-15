@@ -1,13 +1,5 @@
 var redux  = require('redux');
 
-var stateDefault ={
-	name:'Anonymous',
-	hobbies: [],
-	movies: []
-};
-
-var nextHobbyId = 1;
-var nextMovieId = 1;
 
 var oldreducer = (state = stateDefault, action)=>{
 
@@ -62,6 +54,9 @@ var oldreducer = (state = stateDefault, action)=>{
 	}
 };
 
+
+//Name reducer and actions generators
+// ---------------------------------------
 var nameReducer = (state = 'Anonymous', action)=>{
 	switch(action.type){
 		case 'CHANGE_NAME':
@@ -72,6 +67,17 @@ var nameReducer = (state = 'Anonymous', action)=>{
 	}
 };
 
+var changeName = (name)=>{
+	return{
+		type: 'CHANGE_NAME',
+		name
+	}
+}
+
+
+//Hobies reducer and actions generators
+// ---------------------------------------
+var nextHobbyId = 1;
 var hobbiesReducer = (state = [], action)=>{
 	switch(action.type){
 		case 'ADD_HOBBY':
@@ -91,6 +97,24 @@ var hobbiesReducer = (state = [], action)=>{
 	}
 }
 
+var addHobby = (hobby)=>{
+	return{
+		type: 'ADD_HOBBY',
+		hobby
+	}
+}
+
+var rmvHobby = (id)=>{
+	return{
+		type: 'REMOVE_HOBBY',
+		id
+	}
+}
+
+
+//Movies reducer and actions generators
+// ---------------------------------------
+var nextMovieId = 1;
 var moviesReducer = (state = [], action)=>{
 	switch(action.type){
 		case 'ADD_MOVIE':
@@ -115,7 +139,23 @@ var reducer = redux.combineReducers({
 	name: nameReducer,
 	hobies: hobbiesReducer,
 	movies: moviesReducer
-})
+});
+
+var addMovie = (title, genre)=>{
+	return{
+		type: 'ADD_MOVIE',
+		title,
+		genre
+	}
+};
+
+var rmvMovie = (id)=>{
+	return{
+		type: 'REMOVE_MOVIE',
+		id
+	}
+};
+
 
 var store = redux.createStore(reducer, redux.compose(
 	window.devToolsExtension ? window.devToolsExtension() : f => f
@@ -130,47 +170,27 @@ var unsubscribe = store.subscribe(()=>{
 
 
 
-store.dispatch({
-	type: "CHANGE_NAME",
-	name: "Rene"
-});
+store.dispatch(changeName('Rene'));
 
-store.dispatch({
-	type: "ADD_HOBBY",
-	hobby: "RPG"
-});
+store.dispatch(addHobby('RPG'));
 
-store.dispatch({
+store.dispatch(addMovie('Brave Heart', 'Drama'));
+/*store.dispatch({
 	type: "ADD_MOVIE",
 	title: 'Brave Heart',
 	genre: 'Drama'
-});
+});*/
 
-store.dispatch({
-	type:"REMOVE_HOBBY",
-	id:1
-});
+store.dispatch(rmvHobby(1));
 
 //unsubscribe();
 
-store.dispatch({
-	type: "CHANGE_NAME",
-	name: "Erica"
-});
+store.dispatch(changeName('Érica'));
 
-store.dispatch({
-	type: "ADD_HOBBY",
-	hobby: "Ler livros"
-});
+store.dispatch(addHobby('Ler livros'));
 
-store.dispatch({
-	type: "ADD_MOVIE",
-	title: 'Jack christmas',
-	genre: 'Comedy'
-});
+store.dispatch(addMovie('Jack christmas','Comedy'));
 
-store.dispatch({
-	type:"REMOVE_MOVIE",
-	id:2
-});
+store.dispatch(rmvMovie(2));
+
 
